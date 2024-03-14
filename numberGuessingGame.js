@@ -10,7 +10,54 @@ The program should keep a count on the number of attempts a user takes to guess 
 correct number.
 
 Example Input/Output:
-
+Guess a number between 1 and 100: 50
+Guess a smaller number.
+Guess a number between 1 and 100: 25
+Guess a smaller number.
+Guess a number between 1 and 100: 12
+Guess a smaller number.
+Guess a number between 1 and 100: 6
+Guess a smaller number.
+Guess a number between 1 and 100: 3
+Congratulations! You guessed the number in 5 attempts.
 */
 
 //Solution:
+const readline = require('readline');
+
+function generateRandomNumber() {
+    return Math.floor(Math.random() * 100) + 1;
+}
+
+function numberGuessingGame() {
+    const number = generateRandomNumber();
+    let numAttempts = 0;
+
+    
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
+
+    function promptUser() {
+        rl.question("Guess a number between 1 and 100: ", (userInput) => {
+            const userGuess = parseInt(userInput);
+            numAttempts++;
+
+            if (userGuess === number) {
+                console.log(`Congratulations! You guessed the number in ${numAttempts} attempts.`);
+                rl.close();
+            } else if (userGuess > number) {
+                console.log("Guess a smaller number.");
+                promptUser();
+            } else if (userGuess < number) {
+                console.log("Guess a bigger number.");
+                promptUser();
+            }
+        });
+    }
+
+    promptUser();
+}
+
+numberGuessingGame();
