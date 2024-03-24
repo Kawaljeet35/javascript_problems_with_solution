@@ -22,6 +22,7 @@ function bubbleSort(array) {
       break;
     }  
   }
+  return array;
 }
 
 const a = [8,3,7,4,1];
