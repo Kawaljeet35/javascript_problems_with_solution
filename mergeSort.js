@@ -6,42 +6,41 @@ sort a given list in ascending order.
 */
 
 //Solution:
-function mergeSort(array) {
-  if (array.length <= 1) {
-      return array; 
-  }
-
-  const mid = Math.floor(array.length / 2);
-  const leftArray = array.slice(0, mid);
-  const rightArray = array.slice(mid);
-
-  const sortedLeft = mergeSort(leftArray);
-  const sortedRight = mergeSort(rightArray);
-
-  return merge(sortedLeft, sortedRight);
+function merge(array1,array2){
+    let result = [];
+    let i = 0;
+    let j = 0;
+    while(i<array1.length && j<array2.length){
+        if(array2[j] > array1[i]){
+            result.push(array1[i]);
+            i++;
+        }
+        else 
+        {
+            result.push(array2[j]);
+            j++;
+        }
+    }
+    while(i<array1.length){
+        result.push(array1[i]);
+        i++;
+    }
+    while(j<array2.length){
+        result.push(array2[j]);
+        j++;
+    }
+    return result;
 }
 
-function merge(leftArray, rightArray) {
-  let result = [];
-  let leftIndex = 0;
-  let rightIndex = 0;
-
- 
-  while (leftIndex < leftArray.length && rightIndex < rightArray.length) {
-      if (leftArray[leftIndex] < rightArray[rightIndex]) {
-          result.push(leftArray[leftIndex]);
-          leftIndex++;
-      } else {
-          result.push(rightArray[rightIndex]);
-          rightIndex++;
-      }
-  }
-
-  return result.concat(leftArray.slice(leftIndex), rightArray.slice(rightIndex));
+function mergeSort(array){
+    if(array.length <= 1) return array;
+    let mid = Math.floor(array.length/2);
+    let left = mergeSort(array.slice(0,mid));
+    let right = mergeSort(array.slice(mid));
+    return merge(left,right);
 }
 
-const numbers = [8, 3, 7, 4, 1];
-console.log(mergeSort(numbers)); 
+console.log(mergeSort([5,1,4,3,2,6]));
 
 /*
 Time Complexity:
