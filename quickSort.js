@@ -6,33 +6,39 @@ sort a given list in ascending order.
 */
 
 //Solution:
-function quickSort(array, left, right) {
-  if (left < right) {
-      let partitionIndex = partition(array, left, right);
+function pivot(array, start = 0, end = array.length-1){
+    
+    function swap(array,i,j){
+        var temp = array[i];
+        array[i] = array[j]
+        array[j] = temp;
+    }
+    
+    var pivot = array[start];
+    var swapIndex = start;
 
-      quickSort(array, left, partitionIndex - 1);
-      quickSort(array, partitionIndex + 1, right);
-  }
+    for(var i = start+1; i < array.length; i++){
+        if(pivot > array[i]){
+            swapIndex++;
+            swap(array,swapIndex,i);
+        }
+    }
+    swap(array,start,swapIndex);
+    return swapIndex;
 }
 
-function partition(array, left, right) {
-  let pivot = array[right]; 
-  let i = left - 1; 
-
-  for (let j = left; j < right; j++) {
-      if (array[j] <= pivot) {
-          i++;
-          [array[i], array[j]] = [array[j], array[i]];
-      }
-  }
-  [array[i + 1], array[right]] = [array[right], array[i + 1]];
-
-  return i + 1; 
+function quickSort(array,left = 0, right = array.length-1){
+    if(left<right){
+        let pivotIndex = pivot(array,left,right);
+        //left
+        quickSort(array,left,pivotIndex-1);
+        //right
+        quickSort(array,pivotIndex+1,right);
+    }
+    return array;
 }
 
-let array = [8, 3, 7, 4, 1];
-quickSort(array, 0, array.length - 1);
-console.log(array);
+console.log(quickSort([4,8,2,1,5,7,6,3]));
 
 /*
 Time Complexity:
